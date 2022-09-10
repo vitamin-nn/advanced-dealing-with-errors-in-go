@@ -2,6 +2,7 @@ package handmadestack
 
 import (
 	"errors"
+	"fmt"
 )
 
 var (
@@ -28,24 +29,24 @@ func handler() (Entity, error) {
 	if err := runInTransaction(func() (opErr error) {
 		e, opErr = getEntity()
 		if opErr != nil {
-			return opErr
+			return fmt.Errorf("getting entity, %w", opErr)
 		}
 
 		return updateEntity(e)
 	}); err != nil {
-		return Entity{}, err
+		return Entity{}, fmt.Errorf("running getting and update, %w", err)
 	}
 
 	if err := runInTransaction(func() error {
 		return updateEntity(e)
 	}); err != nil {
-		return Entity{}, err
+		return Entity{}, fmt.Errorf("running update, %w", err)
 	}
 
 	if err := runInTransaction(func() (opErr error) {
 		return updateEntity(e)
 	}); err != nil {
-		return Entity{}, err
+		return Entity{}, fmt.Errorf("running update with name err, %w", err)
 	}
 
 	return e, nil

@@ -8,4 +8,31 @@ var (
 	ErrNotFound         error = &NotFoundError{Err{"job wasn't found"}}
 )
 
+type Err struct {
+	ErrString string
+}
+
+func (e *Err) Error() string {
+	return e.ErrString
+}
+
+type AlreadyDoneError struct {
+	Err
+}
+
+type InconsistentDataError struct {
+	Err
+}
+
+type InvalidIDError struct {
+	Err
+}
+
+type NotReadyError struct {
+	Err
+}
+
+type NotFoundError struct {
+	Err
+}
 // Реализуй тип Err и типы для ошибок выше, используя его.

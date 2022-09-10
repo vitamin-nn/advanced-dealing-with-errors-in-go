@@ -21,4 +21,16 @@ func (p *PipelineError) Error() string {
 	return fmt.Sprintf("pipeline %q error", p.Name)
 }
 
+func (p *PipelineError) As(target interface{}) bool {
+	if errT, ok := target.(**UserError); ok {
+		*errT = &UserError{
+			Operation: p.Name,
+			User: p.User,
+		}
+
+		return true
+	}
+
+	return false
+}
 // Добавь метод As для типа *PipelineError.

@@ -6,6 +6,15 @@ package errors
 //  NewError("end of file") != NewError("end of file")
 //
 func NewError(msg string) error {
-	// Реализуй меня.
-	return nil
+	return &NewErr{
+		msg: msg,
+	}
+}
+
+type NewErr struct {
+	msg string
+}
+
+func (e *NewErr) Error() string {
+	return e.msg
 }
